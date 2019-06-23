@@ -1,0 +1,53 @@
+递归函数 recursion
+	
+	含义：
+		函数直接或间接的调用自身
+	示例（直接调用自身）：
+		import time				# 调用时间函数
+		def story():
+			time.sleep(2)		# 休眠2秒
+			print('从前有座山')
+			print('山上有座庙')
+			print('庙里有个老和尚在给小和尚讲故事')
+			story()				# 自身无限调用，会出现RecursionError
+		story()
+	示例（间接调用自身）：
+		def fa():
+			fb()
+		def fb():
+			fa()
+		fa()
+
+	递归说明：
+		1. 递归一定要控制递归的层数，当符合某一条件时要终止递归
+		2. 几乎所有的递归都能用while循环来代替
+	控制递归层次：
+		def fx(n):
+			print('递归进入第',n,'层')
+			if n == 3:
+				return
+			fx(n+1)
+			print('递归退出第',n,'层')
+		fx()
+		print('程序结束')
+	递归的优缺点：
+		优点：
+			递归可以把问题简单化，让思路更为清晰，代码更简洁
+		缺点：
+			递归因系统环境影响大，当递归深度太大时，可能会得到不可预知的结果，python中递归深度1000，调用1000次结束。
+
+	递归函数的实现方法：
+		先假设函数已经实现
+	示例：
+		def mysum(n):
+			if n == 1:
+				return 1
+			return n + mysum(n-1)
+		print(mysum(100))
+	求阶乘：
+		def myfac(n):
+			if n == 1:
+				return 1
+			return n * myfac(n-1)
+		print(myfac(4))
+		print(myfac(5))

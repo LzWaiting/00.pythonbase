@@ -1,0 +1,153 @@
+类变量 class variable(也叫类属性)
+	类变量是类的属性,此属性属于类(类名用大驼峰命名)
+	作用:
+		用来记录类相关的数据
+	说明:
+		类变量可以通过类直接访问
+		类变量可以通过类的实例直接访问
+		类变量可以通过此类的实例的__class__属性间接访问
+	示例:
+		'''此示例示意Human类的实例可以访问count类变量:
+		'''
+		class Human:
+			count = 0	# 创建一个类变量,所有对象共有资源
+
+		print('Human.count=',Human.count)	# 0
+		h1 = Human()
+		print('用h1对象访问Human.count的变量',h1.count)	# 0
+		h1.count = 100
+		print(h1.count)			# 100
+		print(Human.count) 		# 0
+
+		h1.__class__.count += 1		# 使用__class__属性间接访问,修改数据
+		print('h1.count=',h1.count)			# 100
+		print('Human.count=',Human.count)	# 1
+	
+	类变量的应用案例:
+		用类变量来记录对象的个数
+		示例:
+			'''此示例示意类变量记录对象的个数:
+			'''
+			class Car:
+				count = 0
+				def __init__(self,info):
+					print(info,'被创建')
+					self.data = info 	# 记录传入数据
+					self.__class__.count += 1	# 让车的总数加1
+				def __del__(self):(类的析构方法)
+					print(self.data,'被销毁')
+					self.__class__.count -= 1	# 当车被销毁时总数自动减1
+
+			print('当前汽车总数:',Car.count)		# 0
+			b1 = Car('BYD 京A88888')
+			b2 = Car('Audi 京B00000')
+			print('当前汽车总数:',Car.count)		# 2
+	类的文档字符串:
+		类内第一个没有赋值给任何变量的字符串是类的文档字符串
+		说明:
+			类的文档字符串用类的__doc__属性可以访问
+			类的文档字符串可以用help()函数查看
+		示例:
+			'''此模块示意类的文档字符串
+			'''
+			class Car:
+				'''此类用来描述车的对象的行为
+				这是Car 类的文档字符串'''
+				def run(self,speed):
+					'''车的run方法'''
+					pass
+	类的__slots__列表:
+		作用:
+			限定一个类的实例只能有固定的属性(实例变量)
+			通常为防止错写属性名而发生运行时错误
+		示例:
+			'''此示例示意 类的变量__slots__列表的作用
+			'''
+			class Student:
+				__slots__ = ['name','score']
+				def __init__(self,name,score):
+					self.name = name
+					self.score = score
+
+			s1 = Student('小张',58)
+			print(s1.score)
+			s1.socre = 100	# 此处书写错写,运行时不会报错
+			print(s1.score)
+		说明:
+			含有__slots__列表的类创建的实例对象没有__dict__属性,
+			即此实例不用字典来保存对象的属性(实例变量)
+
+类方法 @classmethod
+	类方法是描述类的行为的方法,类方法属于类
+
+	说明:
+		1. 类方法需要用@classmethod装饰器定义
+		2. 类方法至少有一个形参,第一个形参用于绑定类,约定写为'cls'
+		3. 类和该类的实例都可以调用类方法
+		4. 类方法不能访问此类创建的实例的属性(只能访问类变量)
+
+	示例1:
+		'''此示例示意 类方法的定义方法和用法
+		'''
+		class Car:
+			count = 0
+
+			@classmethod
+			def getTotalCount(cls):
+				'''此方法为类方法,
+				第一个形参为cls,代表调用此方法的类'''
+				return cls.count
+			@classmethod
+			def updatecount(cls,number):
+				cls.count += number
+
+		print(Car.getTotalCount())	# 调用类方法
+		# Car.count += 1  # 面向对象思想不提倡直接操作属性
+		Car.updatecount(1)
+		print(Car.getTotalCount())	# 1
+
+		c1 = Car()
+		c1.updatecount(100)
+		print(c1.getTotalCount())		# 101
+	示例2:
+		'''此示例示意 类方法的定义方法和用法
+		'''
+		class Car:
+			count = 0
+
+			@classmethod
+			def getInfo(cls):
+				return cls.count	
+		c1 = Car()		
+		c1.count = 100	
+		print(c1.getInfo())		# 0 此时c1.__class__ 等同于cls
+
+	静态方法 @staticmethod:
+		静态方法不属于类,也不属于类的实例,它相当于定义在类内普通函数,只是它的作用域属于类
+		示例:
+			'''此示例示意类的静态方法@staticmethod的创建和使用
+			'''
+			class A:
+				@staticmethod
+				def myadd(x,y):
+					'''此方法为静态方法
+					此方法的形参不需要传入类或实例'''
+					return x + y
+
+			print('1+2=',A.myadd(1,2))
+			a = A()
+			print('100+200=',a.myadd(100,200))
+用于类的函数
+	issubclass(cls,class_or_tuple)
+	判断一个类是否继承自其它的类,如果此类cls是class或tuple中的一个派生子类则返回True,否则返回False
+	示例:
+		class A:
+			pass
+		class B(A):
+			pass
+		class C(B):
+			pass
+		issubclass(C,(A,B))				# True
+		issubclass(C,(int,str))			# False
+	查看python内建类的继承关系的方法:
+		>>>help(__builtins__)

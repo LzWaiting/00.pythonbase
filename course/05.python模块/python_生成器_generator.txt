@@ -1,0 +1,92 @@
+生成器 generator (python2.5及之后)
+	
+	定义:
+		生成器是能够动态提供数据的对象,生成器对象也是可迭代对象(实例)
+	
+	生成器有两种:
+		生成器函数
+		生成器表达式
+	
+	生成器函数
+		
+		定义:
+			含有 yield(产生/生成)语句的函数是生成器函数,此函数被调用时将返回一个生成器对象
+		
+		yield 语句
+			语法:
+				yield 表达式
+			说明:
+				yield 用于 def 函数中,目的是将此函数作为生成器函数使用
+				yield 用来生成数据,供迭代器 next(it) 函数使用
+			示例:
+				'''此示例示意生成器函数的定义及使用
+				'''
+				def myyield():
+					'''此函数为生成器函数'''
+					yield 2
+					yield 3
+					yield 5
+
+				# 用for语句访问myyield函数
+				for x in myyield():
+					print(x)
+		
+		生成器函数说明:
+			生成器函数不占用计算机内存空间
+			生成器函数的调用将返回一个生成器对象,生成器对象是一个可迭代对象
+			在生成器函数调用return时会生出一个StopIteration 异常来通知next(it)函数不再能提供数据
+
+			练习1:
+				def myinteger(n):
+					i = 0
+					while i < n:
+						yield i
+						i += 1
+
+				for x in myinteger(3):
+					print(x)
+
+				it = iter(myinteger(2))
+				print(next(it))
+				print(next(it))
+				print(next(it))
+			练习2:
+				def myodd(x):
+					i = 0
+					while i < x:
+						if i % 2 == 1:	
+							yield i 
+						i += 1
+
+				for x in myodd(10):
+					print(x)
+
+	生成器表达式
+		
+		定义:
+			生成器对象,
+		语法:
+			(表达式 for 变量 in 可迭代对象 [if 真值表达式])
+		作用:
+			用推导式的形式生成一个新的生成器
+		示例:
+			gen = (x**2 for x in range(1,4))
+			it = iter(gen)
+			print(next(it))
+			print(next(it))
+			print(next(it))
+			print(next(it))		# StopIteration
+		优点:
+			不占用内存空间
+
+	列表推导式 与 生成表达式 的区别:
+		示例:
+			L = [1,2,3,4]
+
+			gen = (x for x in L)
+			lst = [x for x in L]
+			L[1] = 22
+			for x in gen:
+				print(x)	# 1,22,3,4 元素改变
+			for x in lst:
+				print(x)	# 1,2,3,4 不变

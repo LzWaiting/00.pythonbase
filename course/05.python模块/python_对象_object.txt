@@ -1,0 +1,277 @@
+面向对象编程 object
+	对象:
+		定义:
+			对象是指现实中的物体或实体
+	面向对象:
+		定义:
+			把一切看成对象(实例),让对象和对象之间建立关联关系
+	特征:
+		对象有很多属性(名词)
+		对象有很多行为(动词)
+		
+	类:class
+		拥有相同属性和行为的对象分为一组,即为一个类
+		类是用来描述对象的工具,用类可以创建同类对象
+	
+	类的创建语句:
+		语法:
+			class 类名(继承列表):
+				'''类的文档字符串'''
+				实例方法定义(类内的函数称为方法method)
+				类变量定义
+				类方法定义
+				静态方法定义
+		作用:
+			创建一个类
+			用于描述此类对象的行为和属性
+			类用于创建此类的一个或多个对象(实例)
+		示例:
+			# 此示例示意 类的定义:
+
+			class Dog:	# 定义一个类,类名为Dog
+				pass
+
+			dog1 = Dog()	# 创建Dog类的对象
+			print(id(dog1))
+			dog2 = Dog()	# 创建Dog类的另一个对象
+			print(id(dog2))
+
+			# 类似于如下语句:
+			int1 = int()
+			int2 = int()	
+	类 和 对象
+		类  		|对象 	/实例
+		class 	|object /instance							  				
+	构造函数:
+		表达式:
+			类名([创建传参列表])
+		作用:
+			创建这个类的实例对象,并返回此实例对象的应用关系
+	实例(对象)说明:
+		实例有自己的作用域和名字空间,可以为该实例添加实例变量(属性)
+		实例可以调用类方法和实例方法
+		实例可以访问类变量和实例变量
+		示例:
+			class Dog:
+				pass
+			dog1 = Dog()
+	实例方法(method):
+		语法:
+			class 类名(继承列表):
+				def 实例方法名(self,参数1,参数2,...):
+					'''实例方法的文档字符串'''
+					语句块
+		作用:
+			用于描述一个对象的行为,让此类型的全部对象都拥有相同的行为
+		说明:
+			实例方法实质是函数,是定义在类内的函数
+			实例方法至少有一个形参,第一个形参代表调用这个方法的实例
+			'一般命名为self'
+		实例方法的调用语法:
+			实例.实例方法名(调用传参)
+			或
+			类名.实例方法名(实例,调用传参)
+		示例:
+			# 此示例示意如何用实例方法(method)来描述Dog类的行为
+
+			class Dog:
+				def eat(self,food):
+					'''此方法用来描述小狗吃东西的行为'''
+					print('小狗正在吃:',food)
+				
+				def sleep(self,hour):
+					print('小狗睡了',hour,'小时')
+
+			# 创建一个Dog的类实例:
+			dog1 = Dog()
+			dog1.eat('狗粮')
+			dog1.sleep(1)
+			# dog1.play('球')		# 对象不能调用类内不存在的实例方法
+			Dog.sleep(dog1,2)
+
+	实例属性(attribute/实例变量)
+		每个实例都可以有自己的变量,此变量称为实例变量(属性)
+		
+		属性的使用方法:
+			实例.属性名
+
+		赋值规则:
+			首次为属性赋值则创建此属性
+			再次为属性赋值则改变属性的绑定关系
+		作用:
+			用来记录对象自身的数据
+
+	实例方法和实例变量结合一起使用:
+		示例:
+			# 此示例示意为对象添加属性
+
+			class Dog:
+				def eat(self,food):
+					print(self.color,'的',self.kinds,'正在吃',food)
+
+			# 创建第一个对象
+			dog1 = Dog()
+			dog1.kinds = '京巴'
+			dog1.color = '白色'
+			dog1.color = '黄色'
+			# print(dog1.color,'的',dog1.kinds)	# 可以调用
+			dog1.eat('骨头')
+
+			dog2 = Dog()
+			# print(dog2.color,'的',dog2.kinds)	# 不可以调用
+			dog2.kinds = '牧羊犬'
+			dog2.color = '灰色'
+			# print(dog2.color,'的',dog2.kinds)	# 可以调用
+			dog2.eat('肉包子')			
+		练习:
+			# 定义一个学生类:
+			class student:
+				def set_info(self,name,age=0):
+					'''此方法用来给学生对象添加'姓名'和'年龄'属性'''
+					self.name = name
+					self.age = age
+				
+				def show_info(self):
+					'''此处显示此学生的信息'''
+					print(self.name,'今年',self.age,'岁')
+
+			if __name__ == '__main__':
+				s1 = student()
+				s1.set_info('小张',20)
+				s2 = student()
+				s2.set_info('小李',18)
+				s1.show_info()
+				s2.show_info()
+
+	删除属性:
+		用del 语句可以删除一个对象的实例变量
+		语法:
+			del 对象.实例变量名
+		示例:
+			class Cat:
+				pass
+
+			c1 = Cat()			# 创建变量
+			c1.color = '白色'	# 添加属性
+			print(c1.color)
+			del c1.color		# 删除属性
+			print(c1.color)		# 属性错误
+
+	初始化方法(init):
+		作用:
+			对新创建的对象添加实例变量(属性)或相应的资源
+		语法格式:
+			class 类名(继承列表):
+				def __init__(self[,形参列表]):
+					语句块
+		说明:
+			1. 初始化方法名必须为__init__不可改变
+			2. 初始化方法会在构造函数创建实例后自动调用,且将实例自身通过第一个参数self传入__init__方法
+			3. 构造函数的实参将通过__init__方法的形参列表传入__init__方法中
+			4. 初始化方法内部如果需要返回则只能返回None
+		示例:
+			# 此示例示意__init__方法的自动调用及添加示例变量
+
+			class Car:
+				def __init__(self,c,b,m):
+					# print('__init__方法被调用')
+					self.color = c		# 颜色
+					self.brand = b		# 品牌
+					self.model = m		# 型号
+				def run(self,speed):
+					print(self.color,'的',self.brand,self.model,'正在以',speed,'公里/小时的速度行驶!')
+				def set_color(self,clr):
+					self.color = clr
+
+			a4 = Car('红色','Audi','A4')		# 创建一辆车
+			a4.run(170)		# 上路跑
+			a4.set_color('黑色')
+			a4.run(250)
+		练习:
+			# 修改前的 student 类
+			class student:
+				def __init__(self,name,age=0,score=0):
+					self.name = name
+					self.age = age
+					self.score = score
+				def set_score(self,score=0):
+					self.score = score
+				def show_info(self):
+					print(self.name,'今年',self.age,'岁,成绩是:',self.score)
+
+			if __name__ == '__main__':
+				s1 = student('小张',20)
+				s2 = student('小李',18,89)
+				s1.show_info()
+				s2.show_info()
+				s1.set_score(97)
+				s1.show_info()
+
+	析构方法(del):
+		语法:
+			class 类名(继承列表):
+				def __del__(self):
+					语句块
+		说明:
+			析构方法在对象销毁时被自动调用
+		作用:
+			清理此对象所占用的资源
+		示例:
+			# 此示例示意__del__方法的用法:
+			class Car:
+				def __init__(self,name):
+					self.name = name
+					print('汽车',name,'对象已经创建')
+
+				def __del__(self):
+					print(self.name,'对象已经被销毁')
+
+			c1 = Car('BYD E6')
+			c1 = Car('BMW x5')
+
+			while True:		# 阻止程序退出
+				pass			
+		python中不建议在析构方法内做任何事情,因为对象销毁的时间难以确定
+
+	预置实例属性
+		__dict__属性:
+			此属性绑定一个存储此实例自身变量(属性)的字典
+
+		示例:
+			class Dog:
+				pass
+			dog1 = Dog()
+			print(dog1.__dict__)
+			dog1.kinds = '京巴'
+			print(dog1.__dict__)
+		
+		__class__属性:
+			此属性用来绑定创建此实例的类
+			作用:
+				可以借助此属性来访问创建此实例的类
+			示例:
+				class Dog:
+					pass
+				dog1 = Dog()
+				dog2 = Dog()
+				dog3 = dog1.__class__()		# 创建dog1的同类对象
+
+		综合示例:
+			# 对象之间的关系(见:code/module/object_relative.py)
+
+	用于类的函数:
+		isinstance(obj,class_or_tuple) 
+			返回这个对象obj是否是某个类class或某些类的实例,如果是则返回True,否则返回False
+		type(obj)
+			返回对象的类型
+		示例:
+			class Dog:
+				pass
+			class Car:
+				pass
+			animal = Dog()
+			isinstance(animal,Dog)				# True
+			isinstance(animal,Car)				# False
+			isinstance(animal,(Car,int,list))	# False
+			isinstance(animal,(Car,int,Dog))	# True
+			type(animal) ==>	animal.__class__

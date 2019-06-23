@@ -1,0 +1,36 @@
+函数变量
+	定义：
+		函数名是变量，它在创建函数时绑定一个函数
+	示例1：
+		def f1():
+			print('f1被调用')
+		fx = f1
+		fx() 	# 等同于 f1()
+	示例2：
+		def f1():
+			print('hello')
+		def f2():
+			print('world')
+		f1,f2 = f2,f1 		# 交换两个变量的绑定关系
+		f1()				# 绑定f2函数	打印world
+		f2()				# 绑定f1函数 打印hello
+
+	说明：
+		一个函数可以作为另一个函数的参数传递
+	示例1：
+		def f1():
+			print('hello')
+		def f2():
+			print('world')
+		def fx(fn):
+			print(fn)	# id(fn)
+			fn()		# fn()
+		fx(f1)		
+		fx(f2)
+	示例2：
+		def fx(a,fn):
+			return fn(a)
+		L = [5,9,4,6]
+		print('最大值：',fx(L,max))
+		print('最小值：',fx(L,min))
+		print('和：',fx(L,sum))

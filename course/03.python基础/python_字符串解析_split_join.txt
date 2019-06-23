@@ -1,0 +1,22 @@
+字符串文本解析方法 split 和 join
+	S.split(sep=None)
+		作用:
+			将字符串,使用sep作用分隔符分割S字符串,返回分割后的字符串的列表,当不给定参数时,用空白字符作为分割符进行分割
+	S.join(iterable)
+		作用:
+			用可迭代对象中的字符串,返回一个中间用S进行分割的字符串
+	示例:
+		s = 'Beijing is capital'
+		L = s.split(' ')	# L = ['Beijing','is','capital']
+		s = '\'
+		L = ['C:','programe files','python3']
+		s2 = s.join(L)		# s2 = 'C:\programe files\python3'
+
+	S.format()方法
+	示例：
+	>>> s = '{} is a {}'.format('Tom','boy')
+		s --> 'Tom is a boy'
+	>>> s = '{1} is a {0}'.format('boy','Tom')
+		s --> 'Tom is a boy'
+	>>> s = '{name} is a {sex}'.format(name='Tom',sex='boy')
+		s --> 'Tom is a boy'

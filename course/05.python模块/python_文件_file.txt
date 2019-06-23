@@ -1,0 +1,206 @@
+文件 file
+	定义:
+		文件是数据存储的单位
+		文件通常用来长期存储数据
+		文件中的数据是以字节为单位进行顺序存储的
+	
+	任何的操作系统,一个应用程序同时打开文件的数量有最大数限制
+
+	文件的打开函数:
+		open函数
+			语法:
+				open(file,mode='rt')
+			作用:
+				用于打开一个文件,返回此文件对应的文件流对象,如果打开失败,则会触发OSError错误
+
+	文件关闭方法:
+		F.close()
+			作用:
+				关闭,释放系统资源
+	注:打开和关闭成对出现
+		示例:
+			'''此示例示意文件的打开和关闭及错误处理
+			'''
+			try:
+				# 打开文件
+				# f = open('/etc/passwd')		# 文件存在,此时可以成功打开
+				# f = open('/root/abc.txt')	# 文件不存在,此时出现异常
+				f = open('./exercise.py')
+				print('文件打开成功!')	
+
+				# 在此处进行文件的读写操作
+
+				# 关闭文件
+				f.close()
+			except OSError:
+				print('打开文件失败!')
+
+	python文件读写的类型有两种:
+		
+		文本文件(text file)
+			
+			文本文件的操作:
+				
+				1. 默认文件中存储的都为字符数据,以行为单位进行分隔,在python内部统一用'\n'作为换行进行分隔
+				2. 对文本文件读写需要用字符串(str)进行数据读取和写入
+
+				见:python_base_docs_html/文件
+
+				注:各种操作系统的换行符:
+					Linux换行符:					'\n'
+					Windows换行符:				'\r\n'
+					旧的Macintosh换行符:			'\r'
+					新的Mac Os 换行符:			'\n'
+			文本文件的读操作:
+				示例:
+					file_read_text.py
+			文本文件的写操作:
+				示例:
+					file_write_text.py
+			综合练习:
+				见:python/pbase/code/file/phone_write_read.py
+			文本文件的迭代读取:
+				open()函数返回来的文件流对象是可迭代对象
+				示例:
+					f = open('txt')
+					for line in f:
+						print(line)		# 相当于line = f.readline()
+					f.close()	
+			标准输入输出文件:
+				模块名:sys
+					sys.stdin	(默认为标准键盘输入设备)
+						ctrl+d 输入文件末尾标识符(用于sys.stdin.read()读取时)
+						示例:
+							import sys
+							s1 = sys.stdin.readline()
+							print(s1)
+							print('s1停止')
+							s2 = sys.stdin.read()
+							print(s2)
+							print('程序退出')
+					sys.stdout	(默认为屏幕终端)
+					sys.stderr	(默认为屏幕终端)
+						示例:
+							import sys
+							sys.stdout.write('hello world\n')
+							sys.stderr.write('输出错误信息\n')
+							print('程序退出')
+				注:
+					标准文件不需要打开和关闭就可以使用
+				
+				f.flush() 方法:
+					说明:
+						把写入文件对象的缓存内容写入到磁盘
+					示例:
+						import time
+						f = open('./file/mynote.txt','w')
+						f.write('hello world')
+						f.flush()	# 强制清空缓冲区
+
+						print('程序开始睡觉')
+						time.sleep(10)
+						print('程序睡醒了')
+
+						f.close()	
+
+		二进制文件(binary file)
+
+			二进制文件操作:
+				'b'二进制(binary)文件操作
+				对于二进制文件的读写通常需要用字节串(bytes)进行操作
+				示例:
+					# 此示例示意以二进制模式进行读操作:
+					try:
+						f = open('./file/mynote.txt','rb') 	# 'rb'以二进制模式打开
+						# 在此处对f绑定的对象以bytes为单位进行读操作
+						b = f.read(12)	# 11 代表11个字节(bytes)
+						print(b)
+						b += f.read(18)	
+						print(b)
+						
+						print('---解码字节串bytes---')
+						s = b.decode('utf-8')
+						print(s)	# 'hello world\n欢迎来到中国'
+						
+						f.close()
+					except OSError:
+						print('文件打开失败')
+					# 此示例示意以二进制模式进行写操作:
+					try:
+						f = open('./file/mynote.txt','wb') 	# 以二进制模式打开
+						# 在此处对f绑定的对象以bytes为单位进行写操作
+						f.write(b'\xe4')
+						f.write(b'\xb8')
+						f.write(b'\xad')
+						f.write(b'\n\x41\x42\x43')	# 中\nABC
+						
+						f.close()
+					except OSError:
+						print('文件打开失败')
+			
+			F.tell() 方法:	
+				示例:
+					'./file/mynote.txt'文件内容:
+						'ABCDEabcde1234567890'
+					# 此示例示意用f.tell()方法获取文件当前的读写位置
+
+					f = open('./file/mynote.txt','rb')
+
+					print('当前的读写位置是:',f.tell())	# 0
+					b = f.read(5)
+					print('当前的读写位置是:',f.tell())	# 5
+					b = f.read()
+					print('当前的读写位置是:',f.tell())	# 20
+
+					f.close()
+			
+			F.seek() 方法:
+				F.seek(偏移量,whence=相对位置)
+					偏移量:
+						大于0代表向文件末尾方向移动
+						小于0代表向文件头方向移动
+					相对位置:
+						0 代表从文件头开始
+						1 代表从当前读写位置开始偏移
+						2 代表从文件尾开始偏移
+				示例:
+					# 文件内容'ABCDEabcde1234567890'
+					# 此示例示意用F.seek() 方法来移动文件的读写指针位置
+
+					try:
+						f = open('./file/mynote.txt','rb')
+						# f.seek(5,0)			# 从头向后移动5个字节
+						# f.seek(-15,2)			# 从尾向前移动15个字节
+						# f.seek(5,1)			# 从当前位置向后移动5个字节
+						b = f.read(5)
+						print(b)
+
+					except OSError:
+						print('文件打开失败')					
+
+	汉字编码:
+		
+		问题?
+			十个汉字占多少个字节
+				答案: GEK 占20个字节 UTF-8 占30个字节
+
+		国标系列:
+			GB18030(2字节或四字节编码)		# 27000个汉字(2005年)
+				GBK(2字节编码)			# 21003个汉字(1995年)
+					GB2312(2字节编码)		# 6000多个汉字(1980年)
+			注:以上标准,Windows常用
+		国际标准:
+			UNICODE (2~4字节)<---> UTF-8 (1~6字节)
+			注:Linux / Mac OS X / IOS / Android 常用	
+	
+	python 编码(encode)字符串
+
+		'gb2312','gbk','gb18030','utf-8','ascii'...
+
+		编码注释:
+			在源文件的第一行或第二行写入如下内容为编码注释
+			# -*- coding:gbk -*-
+			# 设置源文件编码为:gbk
+			或
+			# -*- coding:utf-8 -*-
+			# 设置源文件编码为:utf-8

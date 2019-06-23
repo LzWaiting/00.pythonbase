@@ -1,0 +1,20 @@
+globals 和 locals 函数
+
+	globals()	返回当前全局作用域内变量的字典
+	locals()	返回当前局部作用域内变量的字典
+
+	示例：
+		a = 1
+		b = 2
+		c = 3
+		def f1(c,d):
+			e = 300
+			print("locals()返回：",locals())		# 以字典的形式，访问局部变量
+			print("globals()返回：",globals())	# 以字典的形式，访问全局变量
+			for k,v in globals().items():
+				print(k,'-->',v)
+			print(c)				# 访问局部变量100
+			print(globals()['c'])	# 访问全局变量 3
+
+		f1(100,200)	
+		

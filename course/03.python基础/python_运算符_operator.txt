@@ -1,0 +1,89 @@
+运算符（也叫操作符):
+
+is 和 is not 运算符（判断的是id地址）
+	作用：
+		判断两个变量是否绑定同一个对象，如果是同一个对象返回True，否则返回False
+		is not 与 is 作用相反
+	语法：
+		x is y
+		x is not y
+
+id() 函数
+	格式：
+		id(对象)
+	作用：
+		返回一个对象在内存中的地址
+
+del 语句（del 是 delete的简写）
+	作用：
+		用于删除变量，同时删除与对象的关联关系。如果可能则释放对象
+	语法：
+		del 变量名
+	python的 内存管理 和 引用计数
+		每个对象都会记录有几个变量引用自身，当引用的数量为0时，则对象被销毁，此种自动化内存管理的方式叫引用计数
+
+复合赋值算术运算符：
+	运算符 		说明
+	y += x 		等同于 y = y + x
+	y //= x 	等同于 y = y // x
+	y %= x 		等同于 y = y % x
+	y **= x 	等同于 y = y ** x
+
+比较预算符：
+	<、<=、>、>=、==、!=
+	语法：
+		左表达式 < 右表达式
+	说明：
+		比较运算符返回布尔类型的值
+	示例：
+		10 < 20			#True
+		1 + 10 == 13	#False
+
+布尔运算:
+	运算符:
+		not and or
+布尔非操作 not:
+	语法:
+		not x
+	作用:
+		对 x 进行布尔取值,如 bool(x)
+		为 True,则返回 False,否则返回 True
+布尔与操作:
+	语法:
+		x and y
+		注:x,y 代表表达式
+	作用:
+		优先返回假值对象
+		当bool(x)的值为False时,返回x,否则返回y
+	示例:
+		True and True 		# True
+		True and False 		# False
+		False and True 		# False
+		False and False 	# False
+
+布尔或操作:
+	语法:
+		x or y
+	作用:
+		优先返回真值对象,当x为True时返回x,否则返回y
+	示例:
+		True or True 		# True
+		True or False 		# True
+		False or True 		# True
+		False or False 		# False
+
+正负号运算符:
+	+(正号) -(负号)		#一元运算符
+	语法:
+		+ 表达式
+		- 表达式
+
+in / not in 运算符
+	作用:
+		in 用于序列,字典,集合中,判断某个值是否存在于容器中,如果存在则返回 True,否则返回 False
+	格式:
+		对象 in 容器
+	示例:
+		s = 'welcome to tarena!'
+		'to' in s 			# True
+		'weimingze' in s 	# False

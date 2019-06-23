@@ -1,0 +1,85 @@
+迭代工具函数
+	
+	作用:
+		生成一个个性化的可迭代对象
+	
+	函数:
+		zip(iter1 [,iter2,iter3,...]) 
+
+		enumerate(iterable[,start])
+		
+	zip 函数 
+
+		语法:
+			zip(iter1 [,iter2,iter3,...]) 
+			
+		说明:
+			返回一个zip对象,此对象用于生成一个元组,此元组的个数由最小的可迭代对象决定
+
+		示例:
+			numbers = [10086,10000,10010,95588]
+			names = ['中国移动','中国电信','中国联通']
+
+		# 遍历zip中的元素:
+			for x,y in zip(names,numbers):
+				print(x,'客服号码:',y)
+
+		# 使用zip函数生成一个元组:
+			for t in zip(names,numbers):
+				print(t)	# t 为元组
+
+		# 使用zip函数生成一个字典:
+			d = dict(zip(names,numbers))
+			print(d)		
+
+		# 遍历3个可迭代对象:
+			for x in zip(range(10),names,numbers):		# for 语句可以识别 StopIteration 异常
+				print(x)
+
+		# zip 内部实现机制:
+			def myzip(iter1,iter2):
+				it1 = iter(iter1)
+				it2 = iter(iter2)
+				while True:
+					x = next(it1)	# 可能会触发 StopIteration
+					y = next(it2)	# 可能会触发 StopIteration
+					yield (x,y)
+
+	enumerate函数(枚举函数)
+		
+		语法:
+			enumerate(iterable[,start])
+
+		说明:
+			生成带索引的枚举对象,返回迭代类型为索引-值对(index,value)对,默认索引从零开始,也可以使用start绑定
+
+		示例:
+			names = ['中国移动','中国电信','中国联通']
+
+		# 遍历 enumerate 中的元素:
+			for x in enumerate(names):
+				index,element = x
+				print('索引:',index,'值:',element)
+
+		# 使用 enumerate 生成一个字典:
+			d = dict(enumerate(names))
+			print(d)
+
+		练习:
+
+		# 获得文本列表:
+			def get_lines():
+				L = []
+				while True:
+					s = input('请输入文字:')
+					if not s:
+						break
+					L.append(s)
+				return L
+		# 打印文本:
+			def print_text(L):
+				for numbers,text in enumerate(L,start = 1):
+					print('第',numbers,'行:',text)
+		# 模块调用:
+			if __name__ == '__main__':
+				print_text(get_lines())

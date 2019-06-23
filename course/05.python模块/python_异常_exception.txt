@@ -1,0 +1,194 @@
+异常 exception
+	
+	什么是错误?
+		错误是指由于逻辑或语句等导致一个程序无法正常执行的问题
+		
+		特点:
+			有些错误是无法预知的
+
+	什么是异常?
+		异常是程序出错时标识的一种状态
+		当异常发生时,程序不会再向下执行,而转去调用此函数的地方待处理此错误并恢复为正常状态
+
+	异常的作用:
+		1. 通知上层调用者,有错误产生,需要处理
+		2. 用作信号
+
+	介绍:
+		接收错误消息:
+			try-except
+		做必须要处理的事情:
+			try-finally
+		发错误消息:
+			raise
+			assert
+
+	为什么要用异常处理机制
+		在程序调用层数较深时,向主调函数传递错误信息需要用return语句层层传递比较麻烦,所以用异常处理机制
+
+try 语句的两种语法
+
+	try-except 语句
+	try-finally 语句
+
+	1. try-except 语句
+		语法:
+			try:
+				可能触发异常的语句
+			except 错误类型1 [as 变量1]:
+				异常处理语句1
+			except 错误类型2 [as 变量2]:
+				异常处理语句2
+			except (错误类型3,错误类型4,...) [as 变量3]:
+				异常处理语句3		# 如果返回的结果一样,可以合在一起使用
+			...
+			except:
+				异常处理语句 other			# 除以上类型,其余异常执行此句
+			else:
+				未发生异常时执行的语句
+			finally:
+				最终执行语句		# 不管是否存在异常,均可以继续执行	
+		作用:
+			尝试接收和捕获异常,将程序转为正常状态并继续执行
+		语法说明:
+			as 子句是用于绑定错误对象的变量,可以省略不写
+			except 子句可以有一个或多个,但至少要有一个
+			else 子句最多只能有一个,也可以省略不写
+			finally 子句最多只能有一个,也可以省略不写
+		示例:
+			try_except.py
+		练习:
+			'''get_score()来获取学生的成绩(0~100),如果输入异常返回0,否则返回用户输入的成绩
+			'''
+
+			# 方法1:
+			def get_score1():
+				score = int(input('请输入成绩:'))
+				if 0 <= score <= 100:
+					return score
+				return 0
+
+			try:
+				score = get_score1()
+			except:
+				score = 0
+
+			# 方法2:
+			def get_score2():
+				try:
+					score = int(input('请输入成绩:'))
+				except ValueError:
+					return 0
+				if 0 <= score <= 100:
+					return score
+				return 0 
+
+			score = get_score2()
+			print('学生的成绩是:',score)
+
+	2. try-finally 语句
+		语法:
+			try:
+				可能触发异常的语句
+			finally:
+				最终语句
+		说明:
+			finally 子句不可以省略
+			一定不存在 except 子句
+		作用:
+			通常用try-finally 语句来做触发异常时必须要处理的事情,无论异常是否发生,finally子句都会被执行
+		注:
+			try-finally 语句不会改变程序的(正常/异常)状态
+		示例:
+			'''煎鸡蛋
+
+			1. 打开天然气
+			2. 煎蛋
+			3. 关闭天然气
+			'''
+
+			def fry_egg():
+				print('打开天然气点燃...')
+				try:
+					count = int(input('请放入鸡蛋个数:'))
+					print('煎完鸡蛋,共煎了%d个鸡蛋' % count)	
+				finally:
+					print('关火,关天然气')		# 必须要执行的
+
+			try:
+				fry_egg()
+			except:
+				print('程序恢复状态')			# 恢复状态
+
+raise 语句
+	作用:
+		触发一个错误,让程序进入异常状态
+	语法:
+		raise 异常类型
+		或
+		raise 异常对象
+	示例:
+		'''此示例示意用raise语句来发出异常通知
+		   供try-except语句来捕获
+		'''
+		def make_except():
+			print('开始...')
+			
+			raise ZeroDivisionError					# 手动发出一个错误通知,语法1
+			
+			e = ZeroDivisionError('被零除啦!!!')		# 语法2	
+			raise e
+			
+			print('结束...')
+
+		try:
+			make_except()
+			print('make_except调用完毕')
+		except ZeroDivisionError as error:
+			print('出现了被零除的错误,已处理并转正常状态')
+			print('error绑定的对象是:',error)	
+
+	练习:
+		'''此示例示意用raise语句来发出异常通知,供try-except语句来捕获
+		甲写了函数get_age,乙用户调用get_age()
+		'''
+		def get_age():
+			a = int(input('请输入年龄(0~140):'))
+			if 0 <= a <= 140:
+				return a
+			elif a > 140:
+				raise OverflowError('年龄范围已超出')
+
+		try:
+			age = get_age()
+		except ValueError as error:
+			print('用户输入的不是数字,请确认')
+			age = 0
+		except OverflowError as error:
+			print(error)
+			age = 0
+
+		print('得到的年龄是:',age)		
+
+assert 语句(断言语句)
+	语法:
+		assert 真值表达式,错误数据(通常是字符串)
+	作用:
+		当真值表达式为False时,用错误数据创建一个AssertionError 类型的错误,并进入异常状态
+	类似于:
+		if 真值表达式 == False:
+			raise AssertionError(错误数据)
+	示例:
+		# 此示例示意assert语句的用法
+
+		def get_age():
+			a = int(input('输入年龄:'))
+			assert 0 <= a <= 140 ,'输入的年龄不合法'
+			return a 
+
+		try:
+			age = get_age()
+		except AssertionError as error:
+			print(error)
+			age = 0
+		print('输入的年龄:',age)

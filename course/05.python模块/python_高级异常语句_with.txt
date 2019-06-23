@@ -1,0 +1,45 @@
+异常(高级)
+	
+	回顾异常相关语句:
+		try-except		# 用来捕获异常通知
+		try-finally		# 用来做一定要做的事
+		raise			# 用来发生异常通知
+		assert			# 用来根据条件发出AssertionError类型的异常通知
+	
+	高级异常:
+		with 语句
+			语法:
+				with 表达式1 [as 变量1],表达式2[as 变量2]:
+					语句块
+			作用:
+				使用于对资源进行访问的场合,确保使用过程中不管是否发生异常,都会执行必须的'清理'操作,并释放资源
+				如:文件使用后自动关闭,线程中锁的自动获取和释放等
+			示例:
+				'''此示例示意try-except和try-finally组合来对文件进行操作'''
+				# def read_from_file(filename = 'info.txt'):
+				# 	try:
+				# 		f = open(filename)
+				# 		print('正在读取文件')
+				# 		try:
+				# 			n = int(f.read())
+				# 			print('n =',n)
+				# 		finally:
+				# 			f.close()
+				# 	except OSError:
+				# 		print('文件打开失败')
+
+				# 此示例示意with语句可以实现上面同样的功能
+				def read_from_file(filename = 'info.txt'):
+					try:
+						with open(filename) as f:
+							print('正在读取文件')
+							n = int(f.read())
+							print('n =',n)
+							print('文件已关闭')	# 此处可以省略f.close()语句
+					except OSError:
+						print('文件打开失败')
+
+				read_from_file()	
+			说明:
+				能够用于with语句进行管理的对象必须是环境管理器			
+

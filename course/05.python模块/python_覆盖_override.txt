@@ -1,0 +1,85 @@
+覆盖 override
+	定义:
+		覆盖是指在有继承关系的类中,子类中实现了与基类同名的方法,在子类实例调用该方法时,实例调用的是子类中的覆盖版本的方法,这种现象叫做覆盖
+	示例:
+		'''此示例示意覆盖的用法:
+		'''
+
+		class A:
+			def work(self):
+				print('A.work()被调用')
+
+		class B(A):
+			'''B类继承自A类'''
+			def work(self):
+				print('B.work()被调用')
+		b = B()
+		b.work()	# 调用B.work()
+		b.__class__.__base__.work(b)	# 间接调用A.work()
+		a = A()
+		a.work()	# 调用A.work()
+问题?
+	当覆盖发生时,子类对象能否访问父类中的方法?
+	子类对象显式调用基类方法的方式:
+		基类名.方法名(实例,实际调用传参)
+	
+	super()函数
+		
+		super(type,obj)返回绑定超类的实例
+		
+		super()	返回绑定超类的实例,
+		等同于:	super(__class__,实例方法的第一个参数)
+				(必须在方法内调用)
+	示例:
+		'''此示例示意super函数来调用父类的覆盖方法:
+		'''
+
+		class A:
+			def work(self):
+				print('A.work()被调用')
+
+		class B(A):
+			'''B类继承自A类'''
+			def work(self):
+				print('B.work()被调用')
+			def super_work(self):
+				# 在此处的调用父类的work方法
+				self.work()						# 此时调用B.work()
+				super(B,self).work()			# 此时调用A.work()
+				super(__class__,self).work()	# 此时调用A.work()
+				super().work()					# 此时调用A.work()
+
+		b = B()
+		# 调用父类的work方法:
+		# b.__class__.__base__.work(b)
+		super(B,b).work()						# 调用超类的方法
+		b.super_work()
+
+	显示调用基类的初始化方法:
+		当子类中实现了__init__方法时,基类的__init__方法并不会被自动调用,此时需要显示调用
+		示例:
+			'''此示例示意子类对象用super方法显式调用基类的__init__方法
+			'''
+			class Human:
+				def __init__(self,n,a):
+					'''此方法为人的对象添加,姓名和年龄属性'''
+					self.name = n
+					self.age = a
+				def infos(self):
+					print('姓名:',self.name)
+					print('年龄:',self.age)
+			class Student(Human):
+				def __init__(self,n,a,s=0):
+					super(Student,self).__init__(n,a)
+					self.score = s
+				def infos(self):
+					super(Student,self).infos()
+					print('成绩:',self.score)
+
+			s1 =Student('小张',18,100)
+			s1.infos()
+
+			# h1 = Human('小赵',20)
+			# h1.infos()
+
+		

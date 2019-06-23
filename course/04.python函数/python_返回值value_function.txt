@@ -1,0 +1,55 @@
+函数可以返回另一个函数
+	
+	示例1：
+		def get_fx():
+			s = input('请输入您要做的操作：')
+			if s == '求最大'：
+				return max
+			elif s == '求最小':
+				return min
+			elif s == '求和':
+				return sum
+		L = [2,4,6,8,10]
+		print(L)
+		f1 = get_fx()
+		print(f1(L))
+
+	示例2：
+		def myadd(x,y):
+			return x + y
+		def mymul(x,y):
+			return x * y
+		def get_op(s):		# s 代表字符串：‘加‘，’乘‘
+			if s == '加' or s == '+':
+				return myadd
+			elif s == '乘' or s == '*':
+				return mymul
+		def main():
+			while True:
+				s = input('请输入计算公式：') 		# 10 加 20
+				L = s.split()
+				a,s,b = L
+				a,b = int(a),int(b)
+				fn = get_op(s)
+				print('结果是：',fn(a,b))
+
+		main()
+
+函数嵌套
+	定义：
+		函数的嵌套是指一个函数里用def语句来创建其他的函数
+	示例：
+		def fn_outer():
+			print('fn_outer被调用！')
+			def fn_inner():
+				print('fn_inner被调用！')
+			fn_inner()
+			fn_inner()
+			print('fn_outer调用结束！')
+			return fn_inner 	# 增加后，可被调用
+
+		fn_outer() 		
+		fn_inner()		# 不可被调用，局部变量
+
+		fx = fn_outer()
+		fx()		# 此时可以调用fn_inner()函数

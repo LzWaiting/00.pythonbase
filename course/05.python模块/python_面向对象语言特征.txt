@@ -1,0 +1,166 @@
+面向对象的编程语言的特征
+
+	面向对象编程语言特征:
+		继承/封装/多态
+	包括:	
+		C++ / Java / Python / Swift / C#
+		注:其中多继承,只有C++/python支持
+
+	继承 inheritance
+		继承 inheritance 和 派生 derived
+			继承:
+				是指从已有的类中衍生出新类,新类具有原类的行为,并能扩展新的行为
+			派生:
+				是指从一个已有类中衍生(创建)新类,在新类上可以添加新的属性和行为
+			目的:
+				继承是延续旧类的功能
+				派生是为了在旧类的基础上添加新的功能
+			作用:
+				1. 用继承派生机制,可以将一些共有功能加在基类中,实现代码的共享
+				2. 在不改变基类的基础上改变原有功能
+
+			继承/派生的名词
+				基类(base class),超类(super class),父类(father class)
+				派生类(derived class),子类(child class)
+			单继承:
+				语法:
+					class 类名(基类名):
+						语句块
+				说明:
+					单继承是指派生类由一个基类衍生出来的类
+				示例:
+					code/class/inheritance_derived.py
+			继承说明:
+				任何类都直接或间接的继承自object类
+				object类是一切类的超类(祖类)
+			
+			类的__base__属性
+				__base__属性用来记录此类的基类
+
+	多继承 multiple inheritance
+		多继承是指一个子类继承自两个或两个以上的基类
+		语法:
+			class 类名(基类名1,基类名2,...):
+				语句块
+		说明:
+			1. 一个子类同时继承自多个父类,父类中的方法可以同时被继承下来
+			2. 如果两个父类中有同名的方法,而在子类中又没有覆盖此方法时,调用结果难以确定
+		示例:
+			'''此示例示意多继承的语句和使用
+			'''
+			class Car:
+				def run(self,speed):
+					print('汽车以',speed,'公里/小时的速度行驶')
+
+			class Plane:
+				def fly(self,height):
+					print('飞机以海拔',height,'的高度飞行')
+
+			class PlaneCar(Car,Plane):
+				'''PlaneCar同时继承自汽车和飞机类'''
+
+			p1 = PlaneCar()
+			p1.fly(10000)
+			p1.run(300)
+		多继承的缺陷:
+			标识符(名字空间冲突的问题),要谨慎使用多继承
+			示例:
+				'''此示例示意多继承的标识符重复问题
+				'''
+				class A:
+					def m(self):
+						print('A.m()被调用')
+
+				class B:
+					def m(self):
+						print('B.m()被调用')
+
+				class AB(A,B):
+					'''PlaneCar同时继承自汽车和飞机类'''
+
+				ab = AB()
+				ab.m()	# 按顺序调用,有广度/深度,python3中使用的是广度
+		继承的MRO(Method Resolution Order)问题
+			类内的__mro__属性用来记录继承方法的查找顺序
+			示例:			
+				'''此示例示意继承的MRO问题
+				'''
+				class A:
+					def m(self):
+						print('A.m')
+
+				class B(A):
+					def m(self):
+						print('B.m')
+						super().m()	# 调用C.m,按__mro__顺序调用
+
+				class C(A):
+					def m(self):
+						print('C.m')
+
+				class D(B,C):
+					def m(self):
+						print('D.m')
+						super().m()	# 调用B.m,按__mro__顺序调用
+
+				d = D()
+				d.m()	# 调用顺序 D--> B --> C --> A --> object
+				for _ in D.__mro__:
+					print(_)
+
+	封装 enclosure
+		封装是指隐藏类的实现细节,让使用者不用关心这些细节
+		封装的目的是让使用者尽可能少的实例变量(属性)进行操作
+
+		私有属性:
+			python类中,以双下划线'__'开头,不以双下划线结尾的标识符为私有成员,在类的外部无法直接访问
+			
+			示例:
+				'''此示例示意使用私有属性和私有方法
+				'''
+				class A:
+					def __init__(self):
+						self.__p1 = 100		# __p1为私有属性,在类的外部不可以调用,在内部可以使用
+
+					def test(self):
+						print(self.__p1)
+						self.__m1()		# 可以调用自己的私有方法
+
+					def __m1(self):
+						'''私有方法,只能在类内部使用'''
+						print('我是A类的__m1方法')
+
+				a = A()
+				# print(a.__p1)	# 在类外看不到__p1属性,访问失败
+				a.test()
+				# a.__m1()	# 无法使用私有方法	
+
+	多态 polymorphic
+		定义:
+			字面意思:'多种状态'
+			多态是指在继承/派生关系的类中,调用基类对象的方法,实际能调用子类的覆盖版本方法的现象叫多态
+		说明:
+			多态调用的方法与对象相关,不与类型相关
+			python的全部对象都只有'运行时状态(动态)',没有'C++/Java'里的'编译时状态(静态)'
+		示例:
+			'''此示例示意多态
+			'''
+			class Shape:
+				def draw(self):
+					print('Shape.draw被调用')
+
+			class Point(Shape):
+				def draw(self):
+					print('正在画一个点')
+
+			class Circle(Point):
+				def draw(self):
+					print('正在画一个圆')
+
+			def my_draw(s):
+				s.draw()	# 此处显示出多态中的动态
+
+			s1 = Circle()
+			s2 = Point()
+			my_draw(s1)
+			my_draw(s2)	

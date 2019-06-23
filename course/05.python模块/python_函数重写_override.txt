@@ -1,0 +1,188 @@
+函数重写 override
+	定义:
+		重写是在定义的类内添加相应的方法,让自定义的类生成的对象(实例)像内建对象一样进行内建的函数操作
+	
+	对象转字符串函数重写
+		repr(obj)	
+			返回一个能代表此对象的表达式字符串,通常:eval(repr(obj)) == obj
+		str(obj)
+			通过给定的对象返回一个字符串(这个字符串通常是给人看的)
+		示例:
+			class MyNumber:
+				def __len__(self):		
+					return 100
+
+			n1 = MyNumber()
+			x = len(n1)		# 重写了__len__方法后,可以调用len方法,否则无法调用
+			print(x)
+	
+	对象转字符串函数重写方法:
+		repr() 函数的重写方法:
+			def __repr__(self):
+				return 能够表达self内容的字符串
+		str() 函数的重写方法:
+			def __str__(self):
+				return 人能看懂的字符串
+		说明:
+			1. str(obj) 函数优先调用obj.__str__()方法返回字符串
+			2. 如果obj没有__str__()方法,则调用obj.__repr__()方法返回的字符串
+			3. 如果obj没有__repr__()方法,则调用object类的__repr__()实例方法显示<xxxx>格式的字符串
+		示例:
+			class MyNumber:
+				def __init__(self,value):
+					self.data = value 
+				def __str__(self):
+					print('__str__被调用')
+					return '数字:%d' % self.data
+				def __repr__(self):
+					print('__repr__被调用')
+					return 'MyNumber(%d)' % self.data
+			n1 = MyNumber(100)
+			print(str(n1))
+			print(repr(n1))
+			print(n1)
+			# n2 = eval(repr(n1))
+			# print(n2)	
+
+	数值转换函数的重写:
+		def __complex__(self):		complex(obj) 函数调用
+		def __int__(self):			int(obj) 函数调用
+		def __float__(self):		float(obj) 函数调用
+		def __bool__(self):			bool(obj) 函数调用
+		示例:
+			'''此示例示意自定义的类MyNumber能够转成为数值类型
+			'''
+			class MyNumber:
+				def __init__(self,value):
+					self.data = value
+				def __repr__(self):
+					return 'MyNumber(%d)' % self.data
+				def __int__(self):
+					return self.data
+
+			n1 = MyNumber(100)
+			print(type(n1))
+			n = int(n1)
+			print(type(n))
+			print(n)
+		布尔 bool 测试函数的重写:
+			格式:
+				def __bool__(self):
+					...
+			作用:
+				用于bool(obj) 函数取值
+				用于if语句真值表达式中
+				用于while语句真值表达式中
+			说明:
+				1. 优先调用__bool__方法取值
+				2. 如果不存在__bool__方法,则用__len__方法取值后,判断是否为零,如果不为零返回True,否则返回False
+				3. 如果再没有__len__方法,则直接返回True
+			示例:
+				'''此示例示意__bool__用法
+				'''
+				class MyList:
+					def __init__(self,iterator = ()):
+						self.data = [x for x in iterator]
+					def __repr__(self):
+						return 'MyList(%r)' % self.data
+					def __len__(self):
+						return len(self.data)
+					def __bool__(self):
+						return False
+					
+				myl = MyList((1,-2,3,-4))
+				print(bool(myl))
+				if myl:
+					print('myl是真值')
+				else:
+					print('myl是假值')
+
+	内建函数的重写:
+		__abs__():				abs(obj)
+		__len__():				len(obj)
+		__reversed__():			reversed(obj)
+		__round__():			round(obj)
+		示例:
+			'''自定义一个MyList类,与系统内建的类一样,用来保护有先后顺序关系的数据
+			'''
+			class MyList:
+				def __init__(self,iterator = ()):
+					self.data = [x for x in iterator]
+				def __repr__(self):
+					return 'MyList(%r)' % self.data
+				def __abs__(self):
+					return MyList((abs(x) for x in self.data))	# 生成器表达式,减少内存消耗
+				def __reversed__(self):
+					return MyList(self.data[::-1])
+				def __len__(self):
+					return len(self.data)
+				
+			myl = MyList((1,-2,3,-4))
+			print(myl) 
+			print(abs(myl))
+			print(reversed(myl))
+			myl2 = MyList(range(10))
+			print(myl2)
+			print('myl2的长度是:',len(myl2))
+			print('myl的长度是:',len(myl))			
+	迭代器(高级)
+		定义:
+			可以通过next(it) 函数取值的对象就是迭代器
+		迭代器协议:
+			迭代器协议是指对象能够使用next函数获取下一项数据,在没有下一项数据时触发一个StopIteration来终止迭代的约定
+		实现方法:
+			类内需要有__next__(self):方法来实现迭代器协议
+		语法形式:
+			class MyIterator:
+				def __next__(self):
+					迭代器协议的实现
+					return 数据
+	可迭代对象:
+		定义:
+			是指能用iter(obj)函数返回迭代器的对象(实例)
+			可迭代对象内部一定要定义__iter__(self): 方法来返回迭代器
+		语法形式:
+			class MyIterable:
+				def __iter__(self):
+					语句块
+					return 迭代器
+		示例:
+			'''此示例示意可迭代对象和迭代器的定义及使用
+			'''
+			class MyList:
+				
+				def __init__(self,iterator):
+					'''自定义列表类的初始化方法,此方法创建一个data实例变量,来绑定一个用来存储数据的列表'''
+					self.data = list(iterator)
+				
+				def __repr__(self):
+					'''此方法为了打印此列表的数据'''
+					return 'MyList(%r)' % self.data
+				
+				def __iter__(self):
+					'''有此方法就是可迭代对象,但要求必须返回迭代器'''
+					return MyListIterator(self.data)
+
+			class MyListIterator:
+				'''此类用来创建一个迭代器对象,用此迭代器对象可以迭代访问MyList类型的数据'''
+				
+				def __init__(self,iter_data):
+					self.cur = 0	# 设置迭代器的初始值为0,代表列表的索引值
+					self.it_data = iter_data	# it_data 绑定要迭代的列表
+				
+				def __next__(self):
+					'''有此方法的对象才叫迭代器,此方法一定要实现迭代器协议'''
+					# 如果self.cur的值已经超出列表的索引范围就报迭代结束
+					if self.cur >= len(self.it_data):
+						raise StopIteration
+					# 否则尚未迭代完成,需要返回数据
+					r = self.it_data[self.cur]	# 拿到要送回去的数
+					self.cur += 1	# 将当前值向后移动一个单位
+					return r
+
+			myl = MyList([2,3,5,7])
+			print(myl)
+			for x in myl:
+				print(x)			
+
+

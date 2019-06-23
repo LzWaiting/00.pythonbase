@@ -1,0 +1,57 @@
+<<< python 基础总结 >>>
+
+数据类型：
+	不可变数据类型：
+		int float complex bool str tuple frozenset bytes
+	可变数据类型：
+		list dict set bytearray
+
+值：
+	None True False ...
+
+运算符：
+	+ - * / // % **
+	> >= < <= == !=
+	is / is not
+	in / not in
+	not or and
+	& | - ^ 
+	+(正号) -（负号）
+
+表达式（表达一定的含义，并能返回一定的值）：
+	1
+	1 + 2
+	len([1,2,3])
+	条件表达式 x if x > y else y
+	全部的推导式：
+		列表，字典，集合
+
+语句：
+	表达式语句：
+		print（‘abc’）
+		'hello'
+	赋值语句（创建变量和修改变量）：
+		a = b = c = 100
+		x, y = 100,200
+	if 语句：
+	while 语句(注：只有while可以死循环)：
+	for 语句（注：用于遍历可迭代对象循环）：
+	break 语句：
+	continue 语句：
+	pass 语句（占位）：
+	del 语句：
+
+函数：
+	内建函数：
+		len(x) max(x) min(x) sum(x) any(x) all(x)
+	构造函数：
+		bool(x) int(x) float(x) complex(x) str(x) list(x) tuple(x) dict(x) set(x) frozenset(x) 
+	特殊函数：
+		abs(x) round(x) pow(x, y, ...)
+	字符串函数：
+		bin(x) oct(x) hex(x) chr(x) ord(x)
+	遍历函数(整数生成器)：
+		range([start,]stop[,step])
+	输入输出函数：
+		input(x)
+		print(...)

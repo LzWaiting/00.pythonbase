@@ -1,0 +1,73 @@
+python容器类型:
+	str list tuple dict set frozenset bytes bytearray
+
+字节串 bytes 和 字节数组 bytearray (1 byte = 8 bit)
+
+字符串 bytes
+
+	作用:
+		存储以字节为单位的数据
+	说明:
+		字节串是不可变的字节序列
+		字节是0~255之间的整数
+
+	创建空字节串的字面值
+		b''		b""		b''''''		b""""""
+		B''		B""		B''''''		B""""""
+	创建非空字节串的字面值
+		b'ABCD'
+		b'\x41\x41'
+		b'hello tarena'
+	字节串的构造函数 bytes
+		bytes() 								生成一个空的字节串等同于b''
+		bytes(整型可迭代对象)						用可迭代对象初始化一个字节串
+		bytes(整数n)								生成n个值为零的字节串
+		bytes(字符串,encoding = 'utf-8')			用字符串的转换编码生成一个字节串,'ascii'(0~255)
+
+	字节串的运算:
+		+ += * *=
+		< <= > >= == !=
+		in / not in			# 65 in b'ABCD'	或 b'A' in b'ABCD'
+ 		索引/切片
+ 	序列函数:
+ 		len min max sum any all
+
+ 	bytes 与 str 区别:
+ 		bytes 存储字节(0~255)
+ 		str 存储Unicode字符(0~65535)
+
+ 	bytes 与 str 转换:
+
+ 				编码(encode)
+ 		str --------------------> bytes
+ 			b = s.encode('utf-8')
+
+ 				解码(decode)
+ 		bytes -------------------> str
+ 			s = b.decode('utf-8')
+
+字节数组 bytearray
+	
+	说明:
+		字节数组是可变的字节序列
+	
+	创建字节数组的构造函数:
+		bytearray()						
+		bytearray(整数)						
+		bytearray(整型可迭代对象)					
+		bytearray(字符串,encoding='utf-8')		
+			注:以上参数等同于字节串
+
+	字节数组的运算:
+		+ += * *=
+		< <= > >= == !=
+		in / not in			
+ 		索引/切片(字节数组支持索引和切片赋值,规则与列表相同)
+
+ 	bytearray 的方法:
+ 		B.clear()						# 清空字节数组
+ 		B.append(n)						# 追加一个字节(n为0-255的整数)
+ 		B.remove(value)					# 删除第一个出现的字节,如果没有出现,则产生ValueError错误
+ 		B.reverse()						# 字节的顺序进行反转
+ 		B.decode(encoding='utf-8')		# 解码
+ 		B.find(sub[,start[,end]])		# 查找

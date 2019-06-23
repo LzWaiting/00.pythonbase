@@ -1,0 +1,27 @@
+不可变类型:
+	int 
+	float 
+	complex 
+	bool 
+	str 
+	tuple 
+	frozenset(固定集合)
+	bytes(字节串)
+可变类型:
+	list 
+	dict 
+	set(集合) 
+	bytearray(字节数组)
+
+注意:
+	对于不可变对象,有时 复合赋值运算符 不同于 运算后在赋值
+	示例:	
+		s1 = {1,2,3}
+		s2 = {2,3,4}
+		s = s1
+		if True:
+			s1 = s1 | s2 		# 此时id(s) != id(s1)	id 改变
+			print(s)			# s = {1,2,3}
+		else:
+			s1 |= s2			# 此时id(s) == id(s1) 	id 不变
+			print(s)			# s = {1,2,3,4}

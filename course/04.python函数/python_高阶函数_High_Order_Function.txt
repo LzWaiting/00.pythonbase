@@ -1,0 +1,114 @@
+高阶函数 High Order Function
+	定义：
+		满足下列任一条件的函数即为高阶函数：
+			1. 函数接受一个或多个函数作为参数传入
+			2. 函数返回一个函数
+
+python 中内建（builtins）的高阶函数
+	
+	map,filter,sorted
+
+	1. map 函数(返回的是可迭代对象)：
+		格式：
+			map(func,*iterables)
+		定义：
+			用函数和可迭代对象中的每一个元素作为参数计算出新的可迭代对象，当最短的一个可迭代对象不再提供数据时，此可迭代对象生成结束
+		示例1：
+			def pow2(x):
+				return x**2
+			for x in map(pow2,range(1,10))
+				print(x)
+		示例2：
+			map使用函数内建pow(x,y,z=None)运行程序
+			for x in map(pow,range(1,4),range(3,0,-1)):
+				print(x)		# 1**3 2**2 3**1
+
+		练习：
+			方法1：
+			y = 2
+			def pow1(x):
+				return x**y
+			print(sum(map(pow1,range(1,10))))
+			y = 3
+			print(sum(map(pow1,range(1,10))))
+			print(sum(map(pow,range(1,10),range(9,0,-1))))
+
+			方法2：
+			print(sum(map(lambda x:x**2,range(1,10))))
+			print(sum(map(lambda x:x**3,range(1,10))))
+			print(sum(map(lambda x,y:x**y,range(1,10),range(9,0,-1))))
+
+	2. filter 函数(滤镜，筛选)（返回的是可迭代对象）：
+		格式：
+			filter(func,iterable)
+		作用：
+			筛选可迭代对象iterable中的数据，返回一个可迭代对象，此可迭代对象将对iterable进行筛选
+		说明：
+			函数func将对每个元素进行求值，返回False则将此数据丢弃，返回True则保留此数据
+		示例1：
+			def isodd(x):		# 此函数判断x是否为奇数
+				return x % 2 == 1
+			for x in filter(isodd,range(10)):
+				print(x)
+		示例2：
+			even = [x for x in filter(lambda x:x % 2 == 0,range(10))]
+
+		练习1：
+			def myodd(x):
+				return x % 2 == 0
+			print([x for x in filter(myodd,range(1,20))])
+
+			print(list(filter(lambda x:x % 2 == 0,range(1,20))))
+
+		练习2：
+			def isprime(x):
+				if x > 1:
+					for i in range(2,x):
+						if x % i == 0:
+							return False
+					else:
+						return True
+				else:
+					return False
+
+			print(list(filter(isprime,range(1,100))))
+
+	3. sorted 函数(返回的是有序列表)：
+		格式：
+			sorted(iterable,key=None,reverse=False)
+		作用：
+			将原可迭代对象的数据进行排序，生成排序后的列表
+		说明：
+			sorted 默认排序从小到大
+			key 函数是用来提供一个参考值，这个值将作为排序的依据
+			reverse 标志用来设置是否降序排序
+		示例1：
+			L = [5,-3,-1,0,3,1]
+			L2 = sorted(L)
+			L3 = sorted(L,key = abs)							# 按绝对值大小排序
+			print(L,L2,L3,sep="\n")
+		示例2：
+			names = ['Tom','Jerry','Spike','Tyke']
+			print(sorted(names))								# 按字符串大小排序
+			print(sorted(names,key=len))						# 按字符串长度
+			
+			def reverse_fun(name):
+				return name[::-1]
+			print(sorted(names,key=reverse_fun))				# 按字符串反序 moT
+
+			print(sorted(names,key=lambda name:name[::-1]))		# 按字符串反序 moT
+
+		练习：
+			L = [{'age':29,'score':100},
+				 {'age':23,'score':98},
+				 {'age':26,'score':92},
+				 {'age':24,'score':88}]
+
+			def age_value(d):		# 此处d为字典
+			 	return d['age'] 
+
+			L2 = sorted(L,key=age_value,reverse=True)
+
+			L3 = sorted(L,key=lambda x : x['score'],reverse=True)
+
+			print(L,L2,L3,sep='\n')		

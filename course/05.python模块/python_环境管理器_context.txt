@@ -1,0 +1,81 @@
+环境管理器
+	
+	特点:
+		1. 类内有__enter__和__exit__实例方法的类被称为环境管理器
+		2. 能够用with语句管理的对象必须是环境管理器
+		3. __enter__方法将在进入with语句时被调用,并返回由as变量管理的对象
+		4. __exit__方法在离开with语句时被调用,且可以用参数来判断在离开with语句时是否有异常发生并做出相应的处理
+	示例:
+		'''此示例示意环境管理器定义及使用'''
+		class A:
+			def __enter__(self):
+				print('已进入with语句')
+				return self 	# 返回的对象将由 as 绑定
+			def __exit__(self,exc_type,exc_val,exc_tb):
+				'''此方法会在退出with语句时自动调用
+				exc_type 在没有异常时为None,在出现异常时为异常类型
+				exc_val 在没有异常时为None,在出现异常时绑定错误对象
+				exc_tb 在没有异常时为None,在出现异常时绑定traceback'''
+				if exc_type is None:
+					print('已离开with语句,离开时状态正常')
+				else:
+					print('已离开with语句,离开时状态异常')
+					print('异常类型是:',exc_type)			
+					print('错误对象是:',exc_val)
+					print('traceback是:',exc_tb)
+
+		with A() as a:
+			print('这是with语句内的一条语句')
+			int(input('请输入整数:'))
+
+	对象的属性管理函数(四个函数):
+		
+		getattr(obj,name[,default])		
+			从一个对象得到对象的属性;
+			getattr(x,'y')等同于x.y;
+			当属性不存在时,如果给出default参数,则返回default;
+			如果没有给出default则产生一个AttributeError错误
+		
+		hasattr(obj,name)
+			用给定的name返回对象obj是否有此属性,此种做法可以避免在getattr(obj,name)时引发错误
+		
+		setattr(obj,name,value)
+			给对象obj的名为name的属性设置相应的值value,set(x,'y',v)等同于x.y=v
+		
+		delattr(obj,name)
+			删除对象obj中的name属性,delattr(x,'y')等同于del x.y
+
+		示例:
+			'''此示例示意对象属性管理函数attribute说明'''
+			class Dog:
+				pass
+
+			dog1 = Dog()
+			# print(dog1.color)	# 出错
+			print(getattr(dog1,'color','没有颜色'))	# 没有,返回'没有颜色'
+			dog1.color = '白色'
+			print(getattr(dog1,'color','没有颜色'))	# 有,返回'白色'
+			# print(getattr(dog1,'kinds'))			# 没有default参数,返回AttributeError
+			print(hasattr(dog1,'color'))			# 判断有没有该属性名,没有不报错
+			print(hasattr(dog1,'kinds'))
+			setattr(dog1,'kinds','京巴')				# 设置kinds属性
+			print(hasattr(dog1,'kinds'))
+			delattr(dog1,'kinds')					# 删除kinds属性	
+			print(hasattr(dog1,'kinds'))			
+		练习:
+			class Car:
+				def __init__(self,color,brand):
+					self.color = color
+					self.brand = brand
+
+				def get_car_attr(self,attr_name):
+					'''此方法用于获取对象的属性,如果属性名attr_name在此对象内不存在则返回None'''	 
+					return getattr(self,attr_name,None)
+
+			car = Car('白色','Audi')
+			v = car.get_car_attr('color')
+			if v is None:
+				print('没有颜色属性')
+			else:
+				print('颜色是:',v)
+				

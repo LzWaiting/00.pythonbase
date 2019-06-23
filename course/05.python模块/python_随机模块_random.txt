@@ -1,0 +1,13 @@
+随机模块 random
+	作用：
+		用于模拟或生成随机输出的模块
+	文档见：
+		python_base_docs_html/随机模块random.html
+
+		常用：
+			random.random()								# [0,1) 随机数
+			random.uniform(a,b)							# [a,b) 随机实数
+			random.randrange([start,]stop[,step])		# 返回range中的随机数
+			random.choice(seq)							# 从序列中返回随机元素
+			random.shuffle(seq[,random])				# 随机给定序列顺序
+			random.sample(seq,n)						# 从序列中随机选择n个不重复的元素

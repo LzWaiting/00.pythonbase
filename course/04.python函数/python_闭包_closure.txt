@@ -1,0 +1,29 @@
+闭包 closure(用来生成函数)
+	
+	定义：
+		将内嵌函数的语句和这些语句的执行环境打包在一起时，得到的对象称为闭包(closure)
+
+	闭包必须满足三个条件：
+		1. 必须有一个内嵌函数
+		2. 内嵌函数必须引用外部函数中的变量
+		3. 外部函数返回值必须是内嵌函数
+	示例：
+		def make_power(y):
+			def fx(arg):
+				return arg**y
+			return fx
+
+		pow2 = make_power(2)			# 生成 x ** 2 函数，此时fx()函数中的y变量为外层嵌套函数变量，不消失，具有延时性
+		print('3的平方是：',pow2(3))
+		pow3 = make_power(3)			# 生成 x ** 3 函数
+		print('3的立方是：',pow3(3)) 
+
+	练习：
+		def make_fx2(a,b,c):
+			def fx(x):
+				return (a*x**2 + b*x + c)
+			return fx
+
+		fx2 = make_fx2(0,3,4)
+		print('3的平方是：',fx2(3))	# 0*x**2 + 3*x + 4 的函数
+		

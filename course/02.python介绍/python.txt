@@ -1,0 +1,82 @@
+<<python语言开发基础>>
+
+python 的简介
+	创始人：Guido van Rossum(荷兰人)
+	时间：1989 圣诞节期间
+	python 的命名：源于一个喜剧团 Monty Python
+
+python 的应用领域
+	系统运维
+	网络编程
+	科学计算
+	人工智能，机器人
+	web 开发
+	大数据及数据库编程
+	云计算
+	教育
+	游戏，图像
+	其他
+
+python 的优缺点
+	优点：
+		面向对象（java,C++,python）
+		免费
+		可移植
+		可混合编程（C/C++/java/.net）
+		简单易学易用
+		应用领域广泛
+		开发效率高
+		开源
+	缺点：
+		与C/C++相比执行速度不够快
+		不能封闭源代码
+
+python 的官网：
+	www.python.org
+
+pyhton 的版本
+	python v2.7 (2020 年结束维护)
+	python v3.5（当前教学版本）
+	python v3.8（最新版本）
+
+python 的安装：
+	windows / Mac OS X /Unix ...
+
+python 的运行
+	python 的解释执行器
+		CPython(python3)    # 由 C 编写
+		Jython  			# 由 java 编写
+		Ironpython 			# 由 .net 编写
+		PyPy  				# 由 python 编写
+
+第一个python程序
+	见：hello.py
+	python 的运行：
+		
+		# 方法一：
+		python3 hello.py
+		
+		# 方法二：
+		# 在 hello.py 的第一行写入：
+		
+		#！/usr/bin/python3
+		chmod a+x hello.py
+		./hello.py
+
+python 的交互提示模式
+	$ python3
+		>>> 	# <-- 可以在 >>> 提示符下输入语句
+	退出:
+		Ctrl + d
+		>>> quit()
+		>>> exit()
+	
+	使用chmod +x ***.py
+	./***.py
+	等同于 python3 ***.py
+	
+python 程序的组成：
+	程序由模块组成
+	模块由语句，函数，类，数据等组成
+	语句包含表达式
+	表达式建立并处理数据对象

@@ -1,0 +1,42 @@
+迭代器 iterator
+	定义:
+		迭代器是指用iter(可迭代对象) 函数返回的对象(实例)
+		迭代器可以用next(it) 函数获取可迭代对象的数据
+
+	迭代器函数:
+		iter(iterable) 从可迭代对象中返回一个迭代器,iterable必须是一个能提供迭代器的可迭代对象
+		next(iterable) 从迭代器iterator中获取下一条记录,如果无法获取下一条记录,则触发StopIteration 异常
+	说明:
+		迭代器是访问可迭代对象的一种方式
+		迭代器只能向前取值,不会后退
+		用iter函数可以返回一个可迭代对象的迭代器
+	示例:
+		r = range(100,200)
+		it = iter(r)
+		i = 0
+		while i < 3:
+			print(next(it))		# 100,101,102
+			i += 1
+	作用:
+		迭代器对象能用next函数获取下一个元素
+	示例:
+		L = [2,3,5,7]
+		it = iter(L)
+
+		方法1
+		for x in L:
+			print(x)
+
+		方法2:
+		i = 0
+		while i < len(L):
+			print(next(it))
+			i += 1
+
+		方法3:
+		while True:
+			try:
+				x = next(it)
+				print(x)
+			except StopIteration:
+				break

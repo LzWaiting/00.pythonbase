@@ -1,0 +1,59 @@
+元组 tuple
+	元组是不可改变的序列,同list一样,元组可以存放任意类型的元素,一旦元组生成,则它不可以改变
+	元组的表示方式:
+		用小括号()括起来,单个元素括起来用逗号(,)区分是单个对象还是元组
+	创建空元组的字符值
+		t = ()
+	创建非空元组的字面值
+		t = 200,
+		t = (20,)
+		t = (1,2,3)
+		t = 100,200,300
+	元组的错误示例:
+		t = (20)					# 此时 t 绑定的是一个 int数
+		t = 200						# 此时 t 绑定的是一个 int数
+		x,y,z = 100,200,300			# 序列赋值
+		x,y,z = 'ABC'				# 序列赋值
+		x,y,z = [10,20,30]			# 序列赋值
+	元组的构造函数:
+		tuple() 生成一个空的元组,等同于()
+		tuple(iterable) 用可迭代对象生成一个元组
+		示例:
+			t = tuple()
+			t = tuple(range(10))
+			t = tuple('hello')
+			t = tuple([1,2,3,4])
+	元组的算术运算:
+		+ += * *=
+		用法与列表的用法完全相同
+	元组的比较运算:
+		< <= > >= == !=
+		规则与列表完全相同
+	in / not in
+		索引取值
+	切片取值
+		规则与列表完全相同
+	区别:
+		元组是不可变对象,不支持索引赋值和切片赋值
+	元组的方法:
+		T.index(v[,begin[,end]])		用于获取元组中v所在的索引位置
+		T.count(v)						用于获取元组中v的个数(同L.count方法)
+	可以用于序列的函数:
+		len,max,min,sum,any,all
+	三个构造函数:
+		str(obj)
+		list(iterable)
+		tuple(iterable)
+		用于创建相应的对象
+	其它函数:
+		reversed(seq)						返回反向顺序的可迭代对象
+		sorted(iterable,reverse = False)	返回已排序的列表
+		示例:
+			for x in reversed('ABCD'):
+				print(x)		# D C B A
+			L = [8, 6, 3, 5, 7]
+			L2 = sorted(L)
+			print(L2)			# [3, 5, 6, 7, 8]
+			L3 = sorted(L,reverse = True)
+			print(L3)			# [8, 7, 6, 5, 3]
+			print(L)			# 保持不变

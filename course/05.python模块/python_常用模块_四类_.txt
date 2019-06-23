@@ -1,0 +1,122 @@
+python 中常用的四大模块
+
+	1. 数学模块 math
+		模块名math
+
+		相关文档见：
+			python_base_docs_html/数学模块math.html
+
+	2. 时间模块 time
+		模块名time
+			此模块提供了时间相关的函数，且一直可用
+
+		相关文档见：
+			python_base_docs_html/时间模块time.html
+
+	3. 系统模块 sys
+		此模块全部是运行时系统相关的信息
+
+		相关文档见：
+			python_base_docs_html/系统模块sys.html
+		示例：
+			# -*- coding:utf-8 -*-			# python2 中不支持打印中文
+			import sys
+
+			# 查看python版本：
+			if sys.version_info[0] == 2:
+				print('运行环境为python2')
+			elif sys.version_info[0] == 3:
+				print('运行环境为python3')
+
+			print('当前的主版本号是：',sys.version_info.major,
+				  '当前的次版本号是：',sys.version_info.minor,
+				  '当前的微版本号是：',sys.version_info.micro)
+
+			# 查看python运行环境：
+			print('当前的操作系统是：',sys.platform)
+
+			# 获取用户命令（sys.argv 绑定用户启动程序时命令行参数的列表）：
+			print('sys.argv =',sys.argv)
+
+			# 直接退出程序运行：
+			sys.exit(0)
+
+			# 获得递归嵌套层次限制：
+			sys.getrecursionlimit()		# 默认1000层	
+
+			# ()内可修改嵌套层次数
+			sys.setrecursionlimit(2000)
+
+	4. 自定义模块
+		示例：
+			自定义模块：
+				# mymod1.py 	
+
+				# 此模块为用户自定义模块
+				def myfun1():
+					print('正在调用mymod1里的myfun1()')
+
+				def myfun2():
+					print('mymod1里的myfun2()')
+
+				name1 = 'audi'
+				name2 = 'tesla'
+
+			测试调用模块：
+				# test_mymod1.py
+
+				# 此程序用来示意导入‘mymod1.py’模块，并调用相应的数据和函数：
+
+				import mymod1 			# 导入模块mymod1
+				mymod1.myfun1()			# 调用mymod1里的myfun1()函数
+				print(mymod1.name1) 	# 输出audi
+
+				from mymod1 import name2
+				print('mymod1里的name2:',name2)
+
+				from mymod1 import *
+				myfun2()
+
+			说明：
+				1. 自定义的模块的模块名必须符合‘标识符的命名规则（同变量名）’
+				2. 模块有各自独立的作用域
+					示例：
+						自定义模块1：
+							# mymod1.py 	
+
+							# 此模块为用户自定义模块
+							def myfun1():
+								print('正在调用mymod1里的myfun1()')
+
+							def myfun2():
+								print('mymod1里的myfun2()')
+
+							name1 = 'audi'
+							name2 = 'tesla'
+						自定义模块2：
+							# mymod2.py
+							def myfun1():
+								print('mymod2.myfun1()')
+
+							name1 = '小李'
+						测试调用模块：
+							# test_mymod.py
+
+							# 此程序用来示意导入‘mymod1.py’，‘mymod2.py’模块，并调用相应的数据和函数：
+
+							# 此时不会引起变量冲突
+							import mymod1 			
+							import mymod2
+							print(mymod1.name1)
+							print(mymod2.name1) 	
+
+							# 以下方法使用，会引起变量的冲突
+							from mymod1 import *
+							from mymod2 import *
+							print(name1)			# 此时name1发生冲突，后导入的会覆盖前面导入的
+
+	模块化编程的优点：
+		1. 有利于多人合作开发
+		2. 使代码更易于维护
+		3. 提高代码的复用率
+		4. 有利于解决变量名冲突问题（python中模块变量包裹在各自的模块中，互不影响）

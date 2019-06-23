@@ -1,0 +1,41 @@
+三大操作系统:
+	Unix
+		AIX(IBM)
+		Solaris(SUN)
+		IOS(Apple 移动端)
+		Mac OS X(Apple)
+	Windows
+		win3.1 win3.2 win95 win98 win me
+		win2000 win_xp win7 win10
+	Linux
+		安卓(Android)
+		Ubuntu
+		Redhat
+
+计算机的组成:
+	硬件:
+		处理器(CPU)
+			A11(33亿个晶体管)
+			频率(3.3GHZ)
+			I3 I5　I7 (intel)
+		运行内存RAM(存储数据) 
+			容量(字节为单位)
+		主板(通过主板进行交互)
+			总线设备
+		输入输出设备
+			显示频
+			键盘
+			鼠标
+			触摸屏
+		外部存储设备
+			硬盘
+			U盘
+			TF卡
+	软件:
+		操作系统
+			Windows	(PC --> personal compute) 
+			Linux 
+			Unix 	(服务器)
+			uCOSII
+		应用软件
+			QQ 微信 游戏
